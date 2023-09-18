@@ -1,0 +1,30 @@
+{{>layout/memorization-header}}
+
+    <h1>Memorization</h1>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <a href="/glossaries/save" role="button" class="btn btn-primary">용어집 등록</a>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- 목록 출력 영역 -->
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>번호</th>
+            <th>용어집</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#glossaries}}
+            <tr>
+                <td>{{id}}</td>
+                <td><a href="/glossaries/update/{{id}}">{{title}}</a></td>
+            </tr>
+        {{/glossaries}}
+        </tbody>
+    </table>
+
+{{>layout/glossary-footer}}
