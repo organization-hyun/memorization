@@ -2,7 +2,10 @@ package com.hyunjuuun.memorization.book.springboot.service.posts;
 
 import com.hyunjuuun.memorization.book.springboot.domain.posts.Posts;
 import com.hyunjuuun.memorization.book.springboot.domain.posts.PostsRepository;
-import com.hyunjuuun.memorization.book.springboot.web.dto.*;
+import com.hyunjuuun.memorization.book.springboot.web.dto.PostsListResponseDto;
+import com.hyunjuuun.memorization.book.springboot.web.dto.PostsResponseDto;
+import com.hyunjuuun.memorization.book.springboot.web.dto.PostsSaveRequestDto;
+import com.hyunjuuun.memorization.book.springboot.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,10 +54,6 @@ public class PostsService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
 
         postsRepository.delete(posts);
-    }
-
-    public TodoResponseDto todo() {
-        return TodoResponseDto.of();
     }
 
 }

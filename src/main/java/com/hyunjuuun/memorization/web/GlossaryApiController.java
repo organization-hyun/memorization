@@ -1,8 +1,10 @@
 package com.hyunjuuun.memorization.web;
 
 import com.hyunjuuun.memorization.service.glossary.GlossaryService;
+import com.hyunjuuun.memorization.web.dto.GlossariesResponseDto;
 import com.hyunjuuun.memorization.web.dto.GlossarySaveRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class GlossaryApiController {
 
     private final GlossaryService glossaryService;
+
+    @GetMapping("/api/v1/glossaries")
+    public GlossariesResponseDto get() {
+        return glossaryService.getGlossaries();
+    }
 
     @PostMapping("/api/v1/glossaries")
     public Long save(@RequestBody GlossarySaveRequestDto requestDto) {

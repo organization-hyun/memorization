@@ -2,7 +2,6 @@ package com.hyunjuuun.memorization.domain.glossary;
 
 import com.hyunjuuun.memorization.domain.BaseTimeEntity;
 import com.hyunjuuun.memorization.domain.term.Term;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,8 +23,11 @@ public class Glossary extends BaseTimeEntity {
     @OneToMany(mappedBy = "glossary")
     private List<Term> terms = new ArrayList();
 
-    @Builder
-    public Glossary(String title) {
+    public static Glossary create(String title) {
+        return new Glossary(title);
+    }
+
+    private Glossary(String title) {
         this.title = title;
     }
 

@@ -4,7 +4,6 @@ import com.hyunjuuun.memorization.book.springboot.service.posts.PostsService;
 import com.hyunjuuun.memorization.book.springboot.web.dto.PostsResponseDto;
 import com.hyunjuuun.memorization.book.springboot.web.dto.PostsSaveRequestDto;
 import com.hyunjuuun.memorization.book.springboot.web.dto.PostsUpdateRequestDto;
-import com.hyunjuuun.memorization.book.springboot.web.dto.TodoResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,11 +33,5 @@ public class PostsApiController {
         postsService.delete(id);
         return id;
     }
-
-    @GetMapping("/todo")
-    public TodoResponseDto todoDto() {
-        return postsService.todo();
-    }
-
 
 }
