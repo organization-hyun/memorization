@@ -15,12 +15,12 @@ public class GlossaryApiController {
 
     private final GlossaryService glossaryService;
 
-    @GetMapping("/api/v1/glossaries")
+    @GetMapping("/glossaries")
     public GlossariesResponseDto get() {
         return glossaryService.getGlossaries();
     }
 
-    @PostMapping("/api/v1/glossaries")
+    @PostMapping("/glossaries")
     public Long save(@RequestBody GlossarySaveRequestDto requestDto) {
         return glossaryService.save(requestDto);
     }
