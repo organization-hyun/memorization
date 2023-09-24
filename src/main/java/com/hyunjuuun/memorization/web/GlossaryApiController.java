@@ -3,7 +3,9 @@ package com.hyunjuuun.memorization.web;
 import com.hyunjuuun.memorization.service.glossary.GlossaryService;
 import com.hyunjuuun.memorization.web.dto.GlossariesResponseDto;
 import com.hyunjuuun.memorization.web.dto.GlossarySaveRequestDto;
+import com.hyunjuuun.memorization.web.dto.GlossaryUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -18,18 +20,20 @@ public class GlossaryApiController {
     }
 
     @PostMapping("/glossaries")
-    public Long save(@RequestBody GlossarySaveRequestDto requestDto) {
-        return glossaryService.save(requestDto);
+    public ResponseEntity<Long> save(@RequestBody GlossarySaveRequestDto requestDto) {
+        return ResponseEntity.ok(glossaryService.save(requestDto));
     }
 
     @DeleteMapping ("/glossaries/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
         glossaryService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
-//    @PutMapping("/glossaries/{id}")
-//    public Long update(@PathVariable Long id) {
-//        return glossaryService.save(requestDto);
-//    }
-
+    @PutMapping("/glossaries/{id}")
+    public ResponseEntity<Long> update(@PathVariable Long id,
+                       @RequestBody GlossaryUpdateRequestDto requestDto) {
+        return ResponseEntity.ok(
+                glossaryService.update(id, requestDto.getTitle()));
+    }
 }

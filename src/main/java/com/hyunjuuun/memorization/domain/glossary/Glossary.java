@@ -31,4 +31,7 @@ public class Glossary extends BaseTimeEntity {
         this.title = title;
     }
 
+    public void updateTitle(String newTitle) {
+        this.title = newTitle;
+    }
 }

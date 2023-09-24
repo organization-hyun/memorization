@@ -1,11 +1,15 @@
 package com.hyunjuuun.memorization.service.glossary;
 
+import com.hyunjuuun.memorization.domain.glossary.Glossary;
 import com.hyunjuuun.memorization.domain.glossary.GlossaryRepository;
 import com.hyunjuuun.memorization.web.dto.GlossariesResponseDto;
 import com.hyunjuuun.memorization.web.dto.GlossarySaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +29,14 @@ public class GlossaryService {
     @Transactional
     public void delete(Long id) {
         glossaryRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Long update(Long id, String title) {
+        Glossary glossary = glossaryRepository.findById(id)
+                .orElseThrow(NoSuchElementException::new);
+        glossary.updateTitle(title);
+        return id;
     }
 
 //    @Transactional
