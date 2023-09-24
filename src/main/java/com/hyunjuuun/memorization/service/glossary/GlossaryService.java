@@ -22,4 +22,14 @@ public class GlossaryService {
         return glossaryRepository.save(requestDto.toEntity()).getId();
     }
 
+    @Transactional
+    public void delete(Long id) {
+        glossaryRepository.deleteById(id);
+    }
+
+//    @Transactional
+//    public Long update(GlossarySaveRequestDto requestDto) {
+//        glossaryRepository.findBy()
+//        return glossaryRepository.save(requestDto.toEntity()).getId();
+//    }
 }
