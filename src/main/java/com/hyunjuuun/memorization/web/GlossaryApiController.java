@@ -22,7 +22,7 @@ public class GlossaryApiController {
         return glossaryService.save(requestDto);
     }
 
-    @DeleteMapping ("/glossaries")
+    @DeleteMapping ("/glossaries/{id}")
     public void delete(@PathVariable Long id) {
         glossaryService.delete(id);
     }
