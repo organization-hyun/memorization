@@ -22,17 +22,17 @@ public class GlossaryService {
     }
 
     @Transactional
-    public Long save(GlossarySaveRequestDto requestDto) {
+    public Long saveGlossary(GlossarySaveRequestDto requestDto) {
         return glossaryRepository.save(requestDto.toEntity()).getId();
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void deleteGlossary(Long id) {
         glossaryRepository.deleteById(id);
     }
 
     @Transactional
-    public Long update(Long id, String title) {
+    public Long updateGlossary(Long id, String title) {
         Glossary glossary = glossaryRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
         glossary.updateTitle(title);

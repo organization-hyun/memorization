@@ -21,12 +21,12 @@ public class GlossaryApiController {
 
     @PostMapping("/glossaries")
     public ResponseEntity<Long> save(@RequestBody GlossarySaveRequestDto requestDto) {
-        return ResponseEntity.ok(glossaryService.save(requestDto));
+        return ResponseEntity.ok(glossaryService.saveGlossary(requestDto));
     }
 
     @DeleteMapping ("/glossaries/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-        glossaryService.delete(id);
+        glossaryService.deleteGlossary(id);
         return ResponseEntity.ok().build();
     }
 
@@ -34,6 +34,6 @@ public class GlossaryApiController {
     public ResponseEntity<Long> update(@PathVariable Long id,
                        @RequestBody GlossaryUpdateRequestDto requestDto) {
         return ResponseEntity.ok(
-                glossaryService.update(id, requestDto.getTitle()));
+                glossaryService.updateGlossary(id, requestDto.getTitle()));
     }
 }
