@@ -4,6 +4,7 @@ import com.hyunjuuun.memorization.domain.glossary.Glossary;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Description;
 
 import javax.persistence.*;
 
@@ -32,7 +33,16 @@ public class Term {
         return new Term(word, description);
     }
 
+
     public void updateGlossary(Glossary glossary) {
         this.glossary = glossary;
+    }
+
+    public void updateWord(String word) {
+        this.word = word;
+    }
+
+    public void updateDescription(String description) {
+        this.description = description;
     }
 }

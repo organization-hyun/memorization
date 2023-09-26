@@ -5,6 +5,7 @@ import com.hyunjuuun.memorization.domain.glossary.GlossaryRepository;
 import com.hyunjuuun.memorization.domain.term.Term;
 import com.hyunjuuun.memorization.domain.term.TermRepository;
 import com.hyunjuuun.memorization.web.dto.request.TermSaveRequestDto;
+import com.hyunjuuun.memorization.web.dto.request.TermUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,5 +25,14 @@ public class TermService {
         Glossary glossary = glossaryRepository.getById(termSaveRequestDto.getGlossaryId());// Proxy조회, SpringBoot 2.5 < 에서 getReferencdById
         term.updateGlossary(glossary);
         return termRepository.save(term).getId();
+    }
+
+    @Transactional
+    public Long updateTerm(TermUpdateRequestDto termUpdateRequestDto) {
+        Term term = termRepository.findById(termUpdateRequestDto.getId())
+                .orElseThrow(NoSuchElementException::new);
+        term.updateWord(termUpdateRequestDto.getWord());
+        term.updateDescription(termUpdateRequestDto.getDescription());
+        return term.getId();
     }
 }
