@@ -21,8 +21,7 @@ public class TermService {
     @Transactional
     public Long saveTerm(TermSaveRequestDto termSaveRequestDto) {
         Term term = termSaveRequestDto.toEntity();
-        Glossary glossary = glossaryRepository.findById(termSaveRequestDto.getGlossaryId())
-                .orElseThrow(NoSuchElementException::new);
+        Glossary glossary = glossaryRepository.getById(termSaveRequestDto.getGlossaryId());// Proxy조회, SpringBoot 2.5 < 에서 getReferencdById
         term.updateGlossary(glossary);
         return termRepository.save(term).getId();
     }
