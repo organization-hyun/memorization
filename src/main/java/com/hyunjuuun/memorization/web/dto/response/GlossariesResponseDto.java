@@ -1,6 +1,7 @@
-package com.hyunjuuun.memorization.web.dto;
+package com.hyunjuuun.memorization.web.dto.response;
 
 import com.hyunjuuun.memorization.domain.glossary.Glossary;
+import com.hyunjuuun.memorization.web.dto.GlossaryDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
