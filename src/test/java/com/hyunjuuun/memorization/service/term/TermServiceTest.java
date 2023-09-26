@@ -6,6 +6,7 @@ import com.hyunjuuun.memorization.domain.term.Term;
 import com.hyunjuuun.memorization.domain.term.TermRepository;
 import com.hyunjuuun.memorization.web.dto.request.TermSaveRequestDto;
 import com.hyunjuuun.memorization.web.dto.request.TermUpdateRequestDto;
+import com.hyunjuuun.memorization.web.dto.response.TermsResponseDto;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,6 +37,12 @@ class TermServiceTest {
         this.glossary = glossary1;
     }
 
+    @Test
+    void getTerms() {
+        TermsResponseDto terms = termService.getTerms(3L);
+        assertEquals(terms.getTerms().size(), 3);
+    }
+    
     @Test
     @Transactional
     void saveTerm() {

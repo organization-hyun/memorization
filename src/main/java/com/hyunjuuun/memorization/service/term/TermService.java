@@ -6,6 +6,7 @@ import com.hyunjuuun.memorization.domain.term.Term;
 import com.hyunjuuun.memorization.domain.term.TermRepository;
 import com.hyunjuuun.memorization.web.dto.request.TermSaveRequestDto;
 import com.hyunjuuun.memorization.web.dto.request.TermUpdateRequestDto;
+import com.hyunjuuun.memorization.web.dto.response.TermsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,10 @@ public class TermService {
 
     private final TermRepository termRepository;
     private final GlossaryRepository glossaryRepository;
+
+    public TermsResponseDto getTerms(Long glossaryId) {
+        return TermsResponseDto.of(termRepository.findByGlossaryId(glossaryId));
+    }
 
     @Transactional
     public Long saveTerm(TermSaveRequestDto termSaveRequestDto) {
