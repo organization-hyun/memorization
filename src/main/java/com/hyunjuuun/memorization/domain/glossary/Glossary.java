@@ -2,6 +2,7 @@ package com.hyunjuuun.memorization.domain.glossary;
 
 import com.hyunjuuun.memorization.domain.BaseTimeEntity;
 import com.hyunjuuun.memorization.domain.term.Term;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Glossary extends BaseTimeEntity {
 
@@ -31,6 +32,9 @@ public class Glossary extends BaseTimeEntity {
         this.title = title;
     }
 
+    /**
+     * 엔티티 특화 메소드
+     */
     public void updateTitle(String newTitle) {
         this.title = newTitle;
     }

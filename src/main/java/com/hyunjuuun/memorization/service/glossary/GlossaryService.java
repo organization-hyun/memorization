@@ -2,14 +2,14 @@ package com.hyunjuuun.memorization.service.glossary;
 
 import com.hyunjuuun.memorization.domain.glossary.Glossary;
 import com.hyunjuuun.memorization.domain.glossary.GlossaryRepository;
-import com.hyunjuuun.memorization.web.dto.GlossariesResponseDto;
-import com.hyunjuuun.memorization.web.dto.GlossarySaveRequestDto;
+import com.hyunjuuun.memorization.web.dto.request.GlossaryUpdateRequestDto;
+import com.hyunjuuun.memorization.web.dto.response.GlossariesResponseDto;
+import com.hyunjuuun.memorization.web.dto.request.GlossarySaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -32,16 +32,10 @@ public class GlossaryService {
     }
 
     @Transactional
-    public Long updateGlossary(Long id, String title) {
+    public Long updateGlossary(Long id, GlossaryUpdateRequestDto requestDto) {
         Glossary glossary = glossaryRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
-        glossary.updateTitle(title);
+        glossary.updateTitle(requestDto.getTitle());
         return id;
     }
-
-//    @Transactional
-//    public Long update(GlossarySaveRequestDto requestDto) {
-//        glossaryRepository.findBy()
-//        return glossaryRepository.save(requestDto.toEntity()).getId();
-//    }
 }

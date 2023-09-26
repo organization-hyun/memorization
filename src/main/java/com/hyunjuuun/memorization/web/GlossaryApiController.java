@@ -1,9 +1,9 @@
 package com.hyunjuuun.memorization.web;
 
 import com.hyunjuuun.memorization.service.glossary.GlossaryService;
-import com.hyunjuuun.memorization.web.dto.GlossariesResponseDto;
-import com.hyunjuuun.memorization.web.dto.GlossarySaveRequestDto;
-import com.hyunjuuun.memorization.web.dto.GlossaryUpdateRequestDto;
+import com.hyunjuuun.memorization.web.dto.response.GlossariesResponseDto;
+import com.hyunjuuun.memorization.web.dto.request.GlossarySaveRequestDto;
+import com.hyunjuuun.memorization.web.dto.request.GlossaryUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +34,6 @@ public class GlossaryApiController {
     public ResponseEntity<Long> update(@PathVariable Long id,
                        @RequestBody GlossaryUpdateRequestDto requestDto) {
         return ResponseEntity.ok(
-                glossaryService.updateGlossary(id, requestDto.getTitle()));
+                glossaryService.updateGlossary(id, requestDto));
     }
 }
