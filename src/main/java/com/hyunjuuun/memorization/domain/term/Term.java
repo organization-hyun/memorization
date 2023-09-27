@@ -4,7 +4,6 @@ import com.hyunjuuun.memorization.domain.glossary.Glossary;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.Description;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -41,7 +40,6 @@ public class Term {
         this.description = description;
         this.keywords = new ArrayList<>(keywords);
     }
-
 
     public void updateGlossary(Glossary glossary) {
         this.glossary = glossary;

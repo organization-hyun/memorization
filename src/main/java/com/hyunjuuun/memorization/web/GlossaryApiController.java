@@ -2,11 +2,11 @@ package com.hyunjuuun.memorization.web;
 
 import com.hyunjuuun.memorization.service.glossary.GlossaryService;
 import com.hyunjuuun.memorization.service.term.TermService;
+import com.hyunjuuun.memorization.web.dto.request.GlossarySaveRequestDto;
+import com.hyunjuuun.memorization.web.dto.request.GlossaryUpdateRequestDto;
 import com.hyunjuuun.memorization.web.dto.request.TermSaveRequestDto;
 import com.hyunjuuun.memorization.web.dto.request.TermUpdateRequestDto;
 import com.hyunjuuun.memorization.web.dto.response.GlossariesResponseDto;
-import com.hyunjuuun.memorization.web.dto.request.GlossarySaveRequestDto;
-import com.hyunjuuun.memorization.web.dto.request.GlossaryUpdateRequestDto;
 import com.hyunjuuun.memorization.web.dto.response.TermsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class GlossaryApiController {
         return ResponseEntity.ok(glossaryService.saveGlossary(requestDto));
     }
 
-    @DeleteMapping ("/glossaries/{id}")
+    @DeleteMapping("/glossaries/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         glossaryService.deleteGlossary(id);
         return ResponseEntity.ok().build();
@@ -37,7 +37,7 @@ public class GlossaryApiController {
 
     @PutMapping("/glossaries/{id}")
     public ResponseEntity<Long> update(@PathVariable Long id,
-                       @RequestBody GlossaryUpdateRequestDto requestDto) {
+                                       @RequestBody GlossaryUpdateRequestDto requestDto) {
         return ResponseEntity.ok(
                 glossaryService.updateGlossary(id, requestDto));
     }
@@ -66,4 +66,5 @@ public class GlossaryApiController {
         termService.deleteTerm(id);
         return ResponseEntity.ok().build();
     }
+
 }
