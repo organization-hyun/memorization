@@ -8,7 +8,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class TermSaveRequestDto {
 
-    private Long glossaryId;
     private String word;
     private String description;
 

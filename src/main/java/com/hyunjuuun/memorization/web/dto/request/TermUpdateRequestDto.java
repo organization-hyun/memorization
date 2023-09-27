@@ -7,7 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class TermUpdateRequestDto {
 
-    Long id;
     String word;
     String description;
 }

@@ -25,19 +25,24 @@ public class TermService {
     }
 
     @Transactional
-    public Long saveTerm(TermSaveRequestDto termSaveRequestDto) {
+    public Long saveTerm(Long glossaryId, TermSaveRequestDto termSaveRequestDto) {
         Term term = termSaveRequestDto.toEntity();
-        Glossary glossary = glossaryRepository.getById(termSaveRequestDto.getGlossaryId());// Proxy조회, SpringBoot 2.5 < 에서 getReferencdById
+        Glossary glossary = glossaryRepository.getById(glossaryId);// Proxy조회, SpringBoot 2.5 < 에서 getReferencdById
         term.updateGlossary(glossary);
         return termRepository.save(term).getId();
     }
 
     @Transactional
-    public Long updateTerm(TermUpdateRequestDto termUpdateRequestDto) {
-        Term term = termRepository.findById(termUpdateRequestDto.getId())
+    public Long updateTerm(Long id, TermUpdateRequestDto termUpdateRequestDto) {
+        Term term = termRepository.findById(id)
                 .orElseThrow(NoSuchElementException::new);
         term.updateWord(termUpdateRequestDto.getWord());
         term.updateDescription(termUpdateRequestDto.getDescription());
         return term.getId();
+    }
+
+    @Transactional
+    public void deleteTerm(Long id) {
+        termRepository.deleteById(id);
     }
 }

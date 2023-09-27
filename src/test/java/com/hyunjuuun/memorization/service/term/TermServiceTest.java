@@ -7,17 +7,15 @@ import com.hyunjuuun.memorization.domain.term.TermRepository;
 import com.hyunjuuun.memorization.web.dto.request.TermSaveRequestDto;
 import com.hyunjuuun.memorization.web.dto.request.TermUpdateRequestDto;
 import com.hyunjuuun.memorization.web.dto.response.TermsResponseDto;
-import lombok.AllArgsConstructor;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class TermServiceTest {
@@ -49,10 +47,12 @@ class TermServiceTest {
         //given
 
         //when
-        Long termId = termService.saveTerm(new TermSaveRequestDto(glossary.getId(), "word1", "desc1"));
+        Long termId = termService.saveTerm(glossary.getId(), new TermSaveRequestDto("word1", "desc1"));
 
         //then
-        assertEquals(termRepository.findById(termId).get().getWord(), "word1");
+        Term term = termRepository.findById(termId).get();
+        assertEquals(term.getWord(), "word1");
+        assertEquals(term.getGlossary().getId(), this.glossary.getId());
     }
 
     @Test
@@ -61,7 +61,7 @@ class TermServiceTest {
         //given
 
         //when
-        Long termId = termService.updateTerm(new TermUpdateRequestDto(6L, "updateWord1", "updateDesc1"));
+        Long termId = termService.updateTerm(6L, new TermUpdateRequestDto("updateWord1", "updateDesc1"));
 
         //then
         assertEquals(termRepository.findById(6L).get().getWord(), "updateWord1");
