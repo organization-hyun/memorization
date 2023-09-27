@@ -21,7 +21,7 @@ public class Glossary extends BaseTimeEntity {
 
     private String title;
 
-    @OneToMany(mappedBy = "glossary")
+    @OneToMany(mappedBy = "glossary", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Term> terms = new ArrayList();
 
     public static Glossary create(String title) {
