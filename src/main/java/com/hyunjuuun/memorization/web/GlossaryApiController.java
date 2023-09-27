@@ -60,7 +60,7 @@ public class GlossaryApiController {
         return ResponseEntity.ok(termService.updateTerm(id, termUpdateRequestDto));
     }
 
-    @PutMapping("/glossaries/{glossaryId}/terms/{id}")
+    @DeleteMapping("/glossaries/{glossaryId}/terms/{id}")
     public ResponseEntity<?> deleteTerm(@PathVariable Long glossaryId,
                                         @PathVariable Long id) {
         termService.deleteTerm(id);
