@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Description;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,18 +26,36 @@ public class Term {
 
     private String description;
 
+    @ElementCollection
+    @CollectionTable(name = "keywords", joinColumns = @JoinColumn(name = "term_id"))
+    @Column(name = "keyword")
+    private List<String> keywords = new ArrayList<>();
+
     private Term(String word, String description) {
         this.word = word;
         this.description = description;
     }
 
-    public static Term create(String word, String description) {
-        return new Term(word, description);
+    private Term(String word, String description, List<String> keywords) {
+        this.word = word;
+        this.description = description;
+        this.keywords = new ArrayList<>(keywords);
     }
 
 
     public void updateGlossary(Glossary glossary) {
         this.glossary = glossary;
+    }
+
+    /**
+     * 엔티티 메소드
+     */
+    public static Term create(String word, String description) {
+        return new Term(word, description);
+    }
+
+    public static Term create(String word, String description, List<String> keywords) {
+        return new Term(word, description, keywords);
     }
 
     public void updateWord(String word) {
@@ -44,5 +64,13 @@ public class Term {
 
     public void updateDescription(String description) {
         this.description = description;
+    }
+
+    public void addKeywords(List<String> keywords) {
+        keywords.addAll(keywords);
+    }
+
+    public void resetKeywords() {
+        keywords.clear();
     }
 }

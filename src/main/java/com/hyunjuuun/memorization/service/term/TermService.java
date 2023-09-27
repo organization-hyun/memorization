@@ -38,6 +38,8 @@ public class TermService {
                 .orElseThrow(NoSuchElementException::new);
         term.updateWord(termUpdateRequestDto.getWord());
         term.updateDescription(termUpdateRequestDto.getDescription());
+        term.resetKeywords();
+        term.addKeywords(termUpdateRequestDto.getKeywords());
         return term.getId();
     }
 
