@@ -30,9 +30,8 @@ public class GlossaryApiController {
     }
 
     @DeleteMapping("/glossaries/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
-        glossaryService.deleteGlossary(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Long> delete(@PathVariable Long id) {
+        return ResponseEntity.ok().body(glossaryService.deleteGlossary(id));
     }
 
     @PutMapping("/glossaries/{id}")

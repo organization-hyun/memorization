@@ -27,8 +27,9 @@ public class GlossaryService {
     }
 
     @Transactional
-    public void deleteGlossary(Long id) {
+    public Long deleteGlossary(Long id) {
         glossaryRepository.deleteById(id);
+        return id;
     }
 
     @Transactional
