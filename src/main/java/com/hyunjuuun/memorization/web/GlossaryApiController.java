@@ -52,18 +52,4 @@ public class GlossaryApiController {
         return ResponseEntity.ok(termService.saveTerm(glossaryId, termSaveRequestDto));
     }
 
-    @PutMapping("/glossaries/{glossaryId}/terms/{id}")
-    public ResponseEntity<?> updateTerm(@PathVariable Long glossaryId,
-                                        @PathVariable Long id,
-                                        @RequestBody TermUpdateRequestDto termUpdateRequestDto) {
-        return ResponseEntity.ok(termService.updateTerm(id, termUpdateRequestDto));
-    }
-
-    @DeleteMapping("/glossaries/{glossaryId}/terms/{id}")
-    public ResponseEntity<?> deleteTerm(@PathVariable Long glossaryId,
-                                        @PathVariable Long id) {
-        termService.deleteTerm(id);
-        return ResponseEntity.ok().build();
-    }
-
 }
