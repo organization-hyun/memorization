@@ -11,9 +11,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -40,19 +43,26 @@ class TermServiceTest {
         TermsResponseDto terms = termService.getTerms(3L);
         assertEquals(terms.getTerms().size(), 3);
     }
-    
+
     @Test
     @Transactional
+    @Rollback(value = false)
     void saveTerm() {
         //given
+        List<String> keywords = new ArrayList<>();
+        keywords.add("keyword1");
+        keywords.add("keyword1");
+        keywords.add("keyword1");
 
         //when
-        Long termId = termService.saveTerm(glossary.getId(), new TermSaveRequestDto("word1", "desc1"));
+        Long termId = termService.saveTerm(glossary.getId(),
+                new TermSaveRequestDto("word1", "desc1", keywords));
 
         //then
         Term term = termRepository.findById(termId).get();
         assertEquals(term.getWord(), "word1");
         assertEquals(term.getGlossary().getId(), this.glossary.getId());
+
     }
 
     @Test
@@ -61,7 +71,8 @@ class TermServiceTest {
         //given
 
         //when
-        Long termId = termService.updateTerm(6L, new TermUpdateRequestDto("updateWord1", "updateDesc1"));
+        Long termId = termService.updateTerm(6L,
+                new TermUpdateRequestDto("updateWord1", "updateDesc1", new ArrayList<>(Arrays.asList("updateKeyword1", "updateKeyword2"))));
 
         //then
         assertEquals(termRepository.findById(6L).get().getWord(), "updateWord1");
