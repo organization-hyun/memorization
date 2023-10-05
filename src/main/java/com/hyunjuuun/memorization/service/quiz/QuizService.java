@@ -31,11 +31,12 @@ public class QuizService {
         for (int i = 0; i < QUIZ_NUMBER; i++) {
             int termIndex = random.nextInt(size);
             Term termForQuiz = terms.get(termIndex);
+            terms.remove(termIndex); // 문제 중복출제 방지
 
             int typeIndex = random.nextInt(2);
             String typeForQuiz = TYPES_OF_TERM[typeIndex];
 
-            quizResponseDto.getQuizzes().add(new QuizDto(typeForQuiz, extractQuizText(termForQuiz, typeIndex)));
+            quizResponseDto.getQuizzes().add(new QuizDto(termForQuiz.getId(), typeForQuiz, extractQuizText(termForQuiz, typeIndex)));
         }
 
         return quizResponseDto;
