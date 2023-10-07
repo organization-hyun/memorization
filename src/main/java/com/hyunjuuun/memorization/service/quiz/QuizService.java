@@ -27,10 +27,11 @@ public class QuizService {
         QuizResponseDto quizResponseDto = new QuizResponseDto(QUIZ_NUMBER);
 
         Random random = new Random();
-        int size = terms.size();
         for (int i = 0; i < QUIZ_NUMBER; i++) {
+            int size = terms.size();
             int termIndex = random.nextInt(size);
             Term termForQuiz = terms.get(termIndex);
+
             terms.remove(termIndex); // 문제 중복출제 방지
 
             int typeIndex = random.nextInt(2);
