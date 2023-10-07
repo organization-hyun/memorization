@@ -1,12 +1,12 @@
 package com.hyunjuuun.memorization.web.dto.response;
 
-import com.hyunjuuun.memorization.web.dto.TermDto;
+import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class MarkingResponseDto {
 
-    Integer correct;
-    Integer incorrect;
-    List<TermDto> incorrectTerms;
+    List<Long> incorrectIdList = new ArrayList<>();
 }
