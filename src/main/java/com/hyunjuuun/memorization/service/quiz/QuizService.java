@@ -2,6 +2,7 @@ package com.hyunjuuun.memorization.service.quiz;
 
 import com.hyunjuuun.memorization.domain.term.Term;
 import com.hyunjuuun.memorization.domain.term.TermRepository;
+import com.hyunjuuun.memorization.enums.QuizType;
 import com.hyunjuuun.memorization.web.dto.QuizDto;
 import com.hyunjuuun.memorization.web.dto.response.QuizResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -29,15 +30,14 @@ public class QuizService {
         Random random = new Random();
         for (int i = 0; i < QUIZ_NUMBER; i++) {
             int size = terms.size();
-            int termIndex = random.nextInt(size);
-            Term termForQuiz = terms.get(termIndex);
+            int termRandomIndex = random.nextInt(size);
+            Term termForQuiz = terms.get(termRandomIndex);
 
-            terms.remove(termIndex); // 문제 중복출제 방지
+            terms.remove(termRandomIndex); // 문제 중복출제 방지
 
-            int typeIndex = random.nextInt(2);
-            String typeForQuiz = TYPES_OF_TERM[typeIndex];
-
-            quizResponseDto.getQuizzes().add(new QuizDto(termForQuiz.getId(), typeForQuiz, extractQuizText(termForQuiz, typeIndex)));
+            int typeRandomIndex = random.nextInt(2);
+            String typeForQuiz = QuizType.getNameByIdx(typeRandomIndex);
+            quizResponseDto.getQuizzes().add(new QuizDto(termForQuiz.getId(), typeForQuiz, extractQuizText(termForQuiz, typeRandomIndex)));
         }
 
         return quizResponseDto;
