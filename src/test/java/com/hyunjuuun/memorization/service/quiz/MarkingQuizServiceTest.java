@@ -9,6 +9,7 @@ import com.hyunjuuun.memorization.web.dto.response.MarkingResponseDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ class MarkingQuizServiceTest {
 
     @Test
     @Transactional
+    @Rollback(value = false)
     void markAnswerSheet() {
         //given
         List<String> springKeywords = new ArrayList<>();
@@ -39,7 +41,7 @@ class MarkingQuizServiceTest {
         javaKeywords.add("썬 마이크로시스템즈");
         javaKeywords.add("객체 지향 프로그래밍 언어");
         javaKeywords.add("플랫폼에 독립적");
-        Term javaTerm = Term.create("spring",
+        Term javaTerm = Term.create("java",
                 "썬 마이크로시스템즈에서 1995년에 개발한 객체 지향 프로그래밍 언어. 가장 큰 특징은 플랫폼에 독립적인 언어이다.",
                 javaKeywords);
         termRepository.save(javaTerm);

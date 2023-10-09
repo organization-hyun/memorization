@@ -1,5 +1,9 @@
 package com.hyunjuuun.memorization.service.quiz;
 
+import com.hyunjuuun.memorization.domain.exam.ExamHistory;
+import com.hyunjuuun.memorization.domain.exam.ExamHistoryRepository;
+import com.hyunjuuun.memorization.domain.exam.ExamHistoryTerm;
+import com.hyunjuuun.memorization.domain.exam.ExamHistoryTermRepository;
 import com.hyunjuuun.memorization.domain.term.Term;
 import com.hyunjuuun.memorization.domain.term.TermRepository;
 import com.hyunjuuun.memorization.enums.QuizType;
@@ -20,7 +24,9 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 public class MarkingQuizService {
 
-    public TermRepository termRepository;
+    private final TermRepository termRepository;
+    private final ExamHistoryRepository examHistoryRepository;
+    private final ExamHistoryTermRepository examHistoryTermRepository;
 
     public MarkingResponseDto markAnswerSheet(MarkingRequestDto markingRequestDto) {
         List<MarkingDto> markingTerms = markingRequestDto.getMarkingTerms();
@@ -28,8 +34,16 @@ public class MarkingQuizService {
         for (MarkingDto markingTerm : markingTerms) {
             if(isCorrectAnswer(markingTerm)) continue;
             markingResponseDto.getIncorrectIdList().add(markingTerm.getId());
+            saveHistory(markingTerm);
         }
         return markingResponseDto;
+    }
+
+    private void saveHistory(MarkingDto markingTerm) {
+        ExamHistory examHistory = new ExamHistory();
+        ExamHistoryTerm examHistoryTerm = new ExamHistoryTerm(examHistory, termRepository.getById(markingTerm.getId()));
+        examHistoryRepository.save(examHistory);
+        examHistoryTermRepository.save(examHistoryTerm);
     }
 
     private boolean isCorrectAnswer(MarkingDto markingTerm) {
