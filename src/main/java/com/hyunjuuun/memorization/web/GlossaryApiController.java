@@ -1,12 +1,15 @@
 package com.hyunjuuun.memorization.web;
 
 import com.hyunjuuun.memorization.service.glossary.GlossaryService;
+import com.hyunjuuun.memorization.service.quiz.MarkingQuizService;
 import com.hyunjuuun.memorization.service.quiz.QuizService;
 import com.hyunjuuun.memorization.service.term.TermService;
 import com.hyunjuuun.memorization.web.dto.request.GlossarySaveRequestDto;
 import com.hyunjuuun.memorization.web.dto.request.GlossaryUpdateRequestDto;
+import com.hyunjuuun.memorization.web.dto.request.MarkingRequestDto;
 import com.hyunjuuun.memorization.web.dto.request.TermSaveRequestDto;
 import com.hyunjuuun.memorization.web.dto.response.GlossariesResponseDto;
+import com.hyunjuuun.memorization.web.dto.response.MarkingResponseDto;
 import com.hyunjuuun.memorization.web.dto.response.QuizResponseDto;
 import com.hyunjuuun.memorization.web.dto.response.TermsResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,7 @@ public class GlossaryApiController {
     private final GlossaryService glossaryService;
     private final TermService termService;
     private final QuizService quizService;
+    private final MarkingQuizService markingQuizService;
 
     @GetMapping("/glossaries")
     public GlossariesResponseDto get() {
@@ -57,5 +61,11 @@ public class GlossaryApiController {
     @GetMapping("/glossaries/{glossaryId}/quiz")
     public ResponseEntity<QuizResponseDto> getQuiz(@PathVariable Long glossaryId) {
         return ResponseEntity.ok(quizService.getQuizzes(glossaryId));
+    }
+
+    @PostMapping("/glossaries/{glossaryId}/quiz")
+    public ResponseEntity<MarkingResponseDto> markAnswerSheet(@PathVariable Long glossaryId,
+                                                              @RequestBody MarkingRequestDto markingRequestDto) {
+        return ResponseEntity.ok(markingQuizService.markAnswerSheet(markingRequestDto));
     }
 }
