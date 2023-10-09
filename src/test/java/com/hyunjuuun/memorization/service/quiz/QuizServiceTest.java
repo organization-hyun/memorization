@@ -5,13 +5,17 @@ import com.hyunjuuun.memorization.domain.glossary.GlossaryRepository;
 import com.hyunjuuun.memorization.domain.term.Term;
 import com.hyunjuuun.memorization.domain.term.TermRepository;
 import com.hyunjuuun.memorization.web.dto.QuizDto;
+import com.hyunjuuun.memorization.web.dto.request.CustomQuizRequestDto;
+import com.hyunjuuun.memorization.web.dto.response.CustomQuizResponseDto;
 import com.hyunjuuun.memorization.web.dto.response.QuizResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -40,10 +44,35 @@ class QuizServiceTest {
         termRepository.save(springTerm);
         termRepository.save(javaTerm);
 
+        //when
         QuizResponseDto quizResponseDto = quizService.getQuizzes(1L);
 
+        //then
         assertThat(quizResponseDto.getTotal()).isEqualTo(2);
         List<QuizDto> quizzes = quizResponseDto.getQuizzes();
+        for (QuizDto quiz : quizzes) {
+            log.info("id={}, type={}, quizText={}", quiz.getId(), quiz.getType(), quiz.getQuizText());
+        }
+    }
+
+    @Test
+    void getCustomQuizzes() {
+        //given
+        int termIdBoundary = (int) termRepository.count();
+        Random random = new Random();
+        final int SAMPLE_REQUEST_TERM_NUMBER = 3;
+        List<Long> termIdList = new ArrayList<>();
+        for (int i = 0; i < SAMPLE_REQUEST_TERM_NUMBER; i++) {
+            termIdList.add((long) (random.nextInt(termIdBoundary) + 1));
+        }
+        CustomQuizRequestDto customQuizRequestDto = CustomQuizRequestDto.builder().termIdList(termIdList).build();
+
+        //when
+        CustomQuizResponseDto customQuizzes = quizService.getCustomQuizzes(customQuizRequestDto);
+
+        //then
+        assertThat(customQuizzes.getTotal()).isEqualTo(2);
+        List<QuizDto> quizzes = customQuizzes.getCustomQuizzes();
         for (QuizDto quiz : quizzes) {
             log.info("id={}, type={}, quizText={}", quiz.getId(), quiz.getType(), quiz.getQuizText());
         }
