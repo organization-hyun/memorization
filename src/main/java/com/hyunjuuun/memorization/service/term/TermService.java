@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -44,7 +45,7 @@ public class TermService {
     }
 
     @Transactional
-    public void deleteTerm(Long id) {
-        termRepository.deleteById(id);
+    public void deleteTerms(List<Long> ids) {
+        termRepository.deleteAllById(ids);
     }
 }
