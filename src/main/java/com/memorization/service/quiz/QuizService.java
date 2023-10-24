@@ -31,7 +31,8 @@ public class QuizService {
         QuizResponseDto quizResponseDto = new QuizResponseDto(QUIZ_NUMBER);
 
         Random random = new Random();
-        for (int i = 0; i < QUIZ_NUMBER; i++) {
+        int quizTotalCount = Math.min(QUIZ_NUMBER, terms.size());
+        for (int i = 0; i < quizTotalCount; i++) {
             int size = terms.size();
             int termRandomIndex = random.nextInt(size);
             Term termForQuiz = terms.get(termRandomIndex);
@@ -66,7 +67,7 @@ public class QuizService {
     }
 
     private boolean removeTermNotExist(List<Long> termIdList, Long termId) {
-        if(!termRepository.existsById(termId)) { // 존재하지 않는 Id로 퀴즈 요청했을 경우
+        if (!termRepository.existsById(termId)) { // 존재하지 않는 Id로 퀴즈 요청했을 경우
             termIdList.remove(termId);
             return true;
         }
