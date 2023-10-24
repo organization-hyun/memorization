@@ -58,8 +58,8 @@ public class GlossaryApiController {
         return ResponseEntity.ok(termService.saveTerm(glossaryId, termSaveRequestDto));
     }
 
-    @GetMapping("/glossaries/{glossaryId}/quiz")
-    public ResponseEntity<QuizResponseDto> getQuiz(@PathVariable Long glossaryId) {
+    @GetMapping("/glossaries/{glossaryId}/quizzes")
+    public ResponseEntity<QuizResponseDto> getQuizzes(@PathVariable Long glossaryId) {
         return ResponseEntity.ok(quizService.getQuizzes(glossaryId));
     }
 
