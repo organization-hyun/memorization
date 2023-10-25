@@ -7,4 +7,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
+
+cors:
+  url: ${CORS_URL}
