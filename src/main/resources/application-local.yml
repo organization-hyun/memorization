@@ -11,3 +11,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+
+cors:
+  url: http://localhost:3000
