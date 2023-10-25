@@ -1,0 +1,4 @@
+[submodule "src/main/resources/config"]
+	path = src/main/resources/config
+	branch = main
+	url = https://github.com/organization-hyun/memorization-backend-sub.git
