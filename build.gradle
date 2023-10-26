@@ -49,6 +49,9 @@ dependencies {
     // OAuth2
 //    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
+
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
 }
