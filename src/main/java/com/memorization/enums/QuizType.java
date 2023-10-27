@@ -16,6 +16,15 @@ public enum QuizType {
         return this.idx;
     }
 
+    public static QuizType getByIdx(int idx) {
+        for(QuizType q : QuizType.values()){
+            if (q.idx.equals(idx)) {
+                return q;
+            }
+        }
+        return null;
+    }
+
     public static String getNameByIdx(int idx){
         for(QuizType q : QuizType.values()){
             if (q.idx.equals(idx)) {

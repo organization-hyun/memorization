@@ -11,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ExamHistoryTerm {
+    // TODO: 10/27/23  해당 엔티티 지우기
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

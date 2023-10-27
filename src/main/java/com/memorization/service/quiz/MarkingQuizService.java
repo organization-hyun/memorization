@@ -39,6 +39,7 @@ public class MarkingQuizService {
         return markingResponseDto;
     }
 
+    // TODO: 10/27/23 glossary 자동 생성
     private void saveHistory(MarkingDto markingTerm) {
         ExamHistory examHistory = new ExamHistory();
         ExamHistoryTerm examHistoryTerm = new ExamHistoryTerm(examHistory, termRepository.getById(markingTerm.getId()));

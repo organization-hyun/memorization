@@ -1,5 +1,6 @@
 package com.memorization.web.dto;
 
+import com.memorization.enums.QuizType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,6 @@ import lombok.NoArgsConstructor;
 public class QuizDto {
 
     Long id;
-    String type;
-    String quizText;
+    QuizType type;
+    String quizText; // TODO: 10/27/23 question 으로 변경
 }
