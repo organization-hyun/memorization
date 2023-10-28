@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class ExamHistoryResponseDto {
 
     String title;
-    List<QuizHistoryDto> quizHistoryList;
+    List<QuizHistoryDto> quizHistories;
 
     public static ExamHistoryResponseDto of(ExamHistory examHistory) {
         return new ExamHistoryResponseDto(examHistory.getTitle(),
