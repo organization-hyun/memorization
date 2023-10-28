@@ -20,18 +20,10 @@ public class ExamHistory extends BaseTimeEntity {
 
     private String title;
 
-    // TODO: 10/27/23
-    // String title 이어붙여서
-            //  originalGlossaryTitle: glossary 명 추가 (기존용어집 타이틀)
-            //  응시일자 examDate
-            //  postfixNumber
-
-    // TODO: 10/27/23 삭제
-//    @OneToMany(mappedBy = "examHistory")
-//    private List<ExamHistoryTerm> terms;
-
     @OneToMany(mappedBy = "examHistory")
     private List<Quiz> quizzes;
 
-    // TODO: 10/27/23 OneToMany Quiz 엔티티 참조
+    public ExamHistory(String title) {
+        this.title = title;
+    }
 }

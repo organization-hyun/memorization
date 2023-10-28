@@ -2,8 +2,9 @@ package com.memorization.service.quiz;
 
 import com.memorization.domain.exam.ExamHistory;
 import com.memorization.domain.exam.ExamHistoryRepository;
-import com.memorization.domain.exam.ExamHistoryTerm;
-import com.memorization.domain.exam.ExamHistoryTermRepository;
+import com.memorization.domain.glossary.GlossaryRepository;
+import com.memorization.domain.quiz.Quiz;
+import com.memorization.domain.quiz.QuizRepository;
 import com.memorization.domain.term.Term;
 import com.memorization.domain.term.TermRepository;
 import com.memorization.enums.QuizType;
@@ -13,6 +14,9 @@ import com.memorization.web.dto.response.MarkingResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -24,52 +28,58 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 public class MarkingQuizService {
 
+    private final GlossaryRepository glossaryRepository;
     private final TermRepository termRepository;
     private final ExamHistoryRepository examHistoryRepository;
-    private final ExamHistoryTermRepository examHistoryTermRepository;
+    private final QuizRepository quizRepository;
 
-    public MarkingResponseDto markAnswerSheet(MarkingRequestDto markingRequestDto) {
-        List<MarkingDto> markingTerms = markingRequestDto.getAnswerSheet();
-        MarkingResponseDto markingResponseDto = new MarkingResponseDto(1L); // dummy
-        for (MarkingDto markingTerm : markingTerms) {
-            if(isCorrectAnswer(markingTerm)) continue;
-//            markingResponseDto.getIncorrectIdList().add(markingTerm.getId());
-            saveHistory(markingTerm);
+    public MarkingResponseDto markAnswerSheet(Long glossaryId, MarkingRequestDto markingRequestDto) {
+        List<MarkingDto> answerSheet = markingRequestDto.getAnswerSheet();
+
+        ExamHistory examHistory = new ExamHistory(glossaryRepository.findById(glossaryId).orElseThrow(NoSuchElementException::new)
+                .getTitle() + "_" + LocalDateTime.now(ZoneId.of("Asia/Seoul")).format(DateTimeFormatter.ofPattern("yyyyMMddHHmm")));
+        examHistoryRepository.save(examHistory);
+
+        for (MarkingDto markingDto : answerSheet) {
+            QuizType quizType = markingDto.getQuizType();
+            Term answerTerm = termRepository.findById(markingDto.getTermId()).orElseThrow(NoSuchElementException::new);
+            String answer;
+            String question;
+            if (quizType.equals(QuizType.WORD)) {
+                question = answerTerm.getWord();
+                answer = answerTerm.getDescription();
+            } else {
+                question = answerTerm.getWord();
+                answer = answerTerm.getWord();
+            }
+            Quiz quiz = new Quiz(examHistory, quizType, question, markingDto.getUserAnswer(), answer,
+                    isCorrectAnswer(quizType, answerTerm, markingDto.getUserAnswer()));
+            quizRepository.save(quiz);
         }
-        return markingResponseDto;
+
+        return new MarkingResponseDto(examHistory.getId());
     }
 
     // TODO: 10/27/23 glossary 자동 생성
-    private void saveHistory(MarkingDto markingTerm) {
-        ExamHistory examHistory = new ExamHistory();
-        ExamHistoryTerm examHistoryTerm = new ExamHistoryTerm(examHistory, termRepository.getById(markingTerm.getTermId()));
-        examHistoryRepository.save(examHistory);
-        examHistoryTermRepository.save(examHistoryTerm);
-    }
 
-    private boolean isCorrectAnswer(MarkingDto markingTerm) {
-        String quizType = markingTerm.getQuizType().toString();
+    private boolean isCorrectAnswer(QuizType quizType, Term term, String userAnswer) {
 
-        if (quizType.equals(QuizType.WORD.name())) {
-            return checkDescription(markingTerm.getTermId(), markingTerm.getUserAnswer());
-        } else if (quizType.equals(QuizType.DESCRIPTION.name())) {
-            return checkWord(markingTerm.getTermId(), markingTerm.getUserAnswer());
+        if (quizType.equals(QuizType.WORD)) {
+            return checkDescription(term.getKeywords(), userAnswer);
+        } else if (quizType.equals(QuizType.DESCRIPTION)) {
+            return checkWord(term.getWord(), userAnswer);
         } else {
             throw new RuntimeException("Wrong quiz type");
         }
     }
 
-    private boolean checkWord(Long id, String word) {
-        return termRepository.findById(id)
-                .orElseThrow(NoSuchElementException::new)
-                .getWord().equals(word);
+    private boolean checkWord(String answerWord, String userWord) {
+        return userWord.replaceAll("\\([^)]*\\)|\\s", "").equals(answerWord);
     }
 
-    private boolean checkDescription(Long id, String description) {
-        Term term = termRepository.findById(id).orElseThrow(NoSuchElementException::new);
-        List<String> keywords = term.getKeywords();
+    private boolean checkDescription(List<String> keywords, String userDescription) {
         for (String keyword : keywords) {
-            if(!description.contains(keyword)) return false;
+            if(!userDescription.contains(keyword)) return false;
         }
         return true;
     }

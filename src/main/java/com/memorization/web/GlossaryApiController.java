@@ -69,6 +69,6 @@ public class GlossaryApiController {
     @PostMapping("/glossaries/{glossaryId}/exam")
     public ResponseEntity<MarkingResponseDto> markAnswerSheet(@PathVariable Long glossaryId,
                                                               @RequestBody MarkingRequestDto markingRequestDto) {
-        return ResponseEntity.ok(markingQuizService.markAnswerSheet(markingRequestDto));
+        return ResponseEntity.ok(markingQuizService.markAnswerSheet(glossaryId, markingRequestDto));
     }
 }

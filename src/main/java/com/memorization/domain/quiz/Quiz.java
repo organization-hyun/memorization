@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Getter
 public class Quiz {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,4 +31,12 @@ public class Quiz {
 
     private Boolean isCorrect;
 
+    public Quiz(ExamHistory examHistory, QuizType quizType, String question, String userAnswer, String answer, Boolean isCorrect) {
+        this.examHistory = examHistory;
+        this.quizType = quizType;
+        this.question = question;
+        this.userAnswer = userAnswer;
+        this.answer = answer;
+        this.isCorrect = isCorrect;
+    }
 }

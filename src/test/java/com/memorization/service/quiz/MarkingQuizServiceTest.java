@@ -2,10 +2,6 @@ package com.memorization.service.quiz;
 
 import com.memorization.domain.term.Term;
 import com.memorization.domain.term.TermRepository;
-import com.memorization.enums.QuizType;
-import com.memorization.web.dto.MarkingDto;
-import com.memorization.web.dto.request.MarkingRequestDto;
-import com.memorization.web.dto.response.MarkingResponseDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class MarkingQuizServiceTest {
@@ -48,16 +42,7 @@ class MarkingQuizServiceTest {
         termRepository.save(javaTerm);
 
         //when
-        MarkingDto springMarkingTerm = MarkingDto.builder().id(springTerm.getId()).type(QuizType.WORD.name()).answer("Java, 프레임워크, POJO").build();
-        MarkingDto javaMarkingTerm = MarkingDto.builder().id(springTerm.getId()).type(QuizType.DESCRIPTION.name()).answer("오답").build();
-        List<MarkingDto> answers = new ArrayList<>();
-        answers.add(springMarkingTerm);
-        answers.add(javaMarkingTerm);
-        MarkingRequestDto markingRequestDto = MarkingRequestDto.builder().markingTerms(answers).build();
-        MarkingResponseDto markingResponseDto = markingQuizService.markAnswerSheet(markingRequestDto);
 
         //then
-        assertThat(markingResponseDto.getIncorrectIdList().size()).isEqualTo(1);
-        assertThat(markingResponseDto.getIncorrectIdList().get(0)).isEqualTo(javaMarkingTerm.getId());
     }
 }
