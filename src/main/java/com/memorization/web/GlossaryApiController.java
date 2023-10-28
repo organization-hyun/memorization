@@ -12,6 +12,7 @@ import com.memorization.web.dto.response.GlossariesResponseDto;
 import com.memorization.web.dto.response.MarkingResponseDto;
 import com.memorization.web.dto.response.QuizResponseDto;
 import com.memorization.web.dto.response.TermsResponseDto;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -63,6 +64,7 @@ public class GlossaryApiController {
         return ResponseEntity.ok(quizService.getQuizzes(glossaryId));
     }
 
+    @Operation(summary = "퀴즈 답안지를 제출받아서 시험 이력(정답, 오답 등) 을 저장 한뒤, 시험 이력 키값을 반환한다.")
     @PostMapping("/glossaries/{glossaryId}/quiz")
     public ResponseEntity<MarkingResponseDto> markAnswerSheet(@PathVariable Long glossaryId,
                                                               @RequestBody MarkingRequestDto markingRequestDto) {
