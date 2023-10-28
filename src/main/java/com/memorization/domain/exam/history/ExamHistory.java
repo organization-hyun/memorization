@@ -1,7 +1,7 @@
-package com.memorization.domain.exam;
+package com.memorization.domain.exam.history;
 
 import com.memorization.domain.BaseTimeEntity;
-import com.memorization.domain.quiz.Quiz;
+import com.memorization.domain.quiz.history.QuizHistory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +21,7 @@ public class ExamHistory extends BaseTimeEntity {
     private String title;
 
     @OneToMany(mappedBy = "examHistory")
-    private List<Quiz> quizzes;
+    private List<QuizHistory> QuizHistoryList;
 
     public ExamHistory(String title) {
         this.title = title;

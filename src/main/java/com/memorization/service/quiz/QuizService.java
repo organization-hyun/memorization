@@ -4,7 +4,7 @@ import com.memorization.domain.term.Term;
 import com.memorization.domain.term.TermRepository;
 import com.memorization.enums.QuizType;
 import com.memorization.web.dto.QuizDto;
-import com.memorization.web.dto.response.QuizResponseDto;
+import com.memorization.web.dto.response.ExamResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class QuizService {
     private final TermRepository termRepository;
     private Random random = new Random();
 
-    public QuizResponseDto getQuizzes(Long glossaryId) {
+    public ExamResponseDto getQuizzes(Long glossaryId) {
         List<Term> terms = termRepository.findByGlossaryId(glossaryId);
         int termCount = terms.size();
         List<QuizDto> quizDtoList = new ArrayList<>();
@@ -36,7 +36,7 @@ public class QuizService {
             quizDtoList.add(new QuizDto(termForQuiz.getId(), quizType, extractQuizText(termForQuiz, quizType)));
         }
 
-        return new QuizResponseDto(quizDtoList.size(), quizDtoList);
+        return new ExamResponseDto(quizDtoList.size(), quizDtoList);
     }
 
 

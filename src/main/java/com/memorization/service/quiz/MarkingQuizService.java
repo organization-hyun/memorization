@@ -1,10 +1,10 @@
 package com.memorization.service.quiz;
 
-import com.memorization.domain.exam.ExamHistory;
-import com.memorization.domain.exam.ExamHistoryRepository;
+import com.memorization.domain.exam.history.ExamHistory;
+import com.memorization.domain.exam.history.ExamHistoryRepository;
 import com.memorization.domain.glossary.GlossaryRepository;
-import com.memorization.domain.quiz.Quiz;
-import com.memorization.domain.quiz.QuizRepository;
+import com.memorization.domain.quiz.history.QuizHistory;
+import com.memorization.domain.quiz.history.QuizHistoryRepository;
 import com.memorization.domain.term.Term;
 import com.memorization.domain.term.TermRepository;
 import com.memorization.enums.QuizType;
@@ -31,7 +31,7 @@ public class MarkingQuizService {
     private final GlossaryRepository glossaryRepository;
     private final TermRepository termRepository;
     private final ExamHistoryRepository examHistoryRepository;
-    private final QuizRepository quizRepository;
+    private final QuizHistoryRepository quizHistoryRepository;
 
     public MarkingResponseDto markAnswerSheet(Long glossaryId, MarkingRequestDto markingRequestDto) {
         List<MarkingDto> answerSheet = markingRequestDto.getAnswerSheet();
@@ -49,12 +49,12 @@ public class MarkingQuizService {
                 question = answerTerm.getWord();
                 answer = answerTerm.getDescription();
             } else {
-                question = answerTerm.getWord();
+                question = answerTerm.getDescription();
                 answer = answerTerm.getWord();
             }
-            Quiz quiz = new Quiz(examHistory, quizType, question, markingDto.getUserAnswer(), answer,
+            QuizHistory quiz = new QuizHistory(examHistory, quizType, question, markingDto.getUserAnswer(), answer,
                     isCorrectAnswer(quizType, answerTerm, markingDto.getUserAnswer()));
-            quizRepository.save(quiz);
+            quizHistoryRepository.save(quiz);
         }
 
         return new MarkingResponseDto(examHistory.getId());

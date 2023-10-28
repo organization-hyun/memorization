@@ -1,6 +1,6 @@
-package com.memorization.domain.quiz;
+package com.memorization.domain.quiz.history;
 
-import com.memorization.domain.exam.ExamHistory;
+import com.memorization.domain.exam.history.ExamHistory;
 import com.memorization.enums.QuizType;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Quiz {
+public class QuizHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class Quiz {
 
     private Boolean isCorrect;
 
-    public Quiz(ExamHistory examHistory, QuizType quizType, String question, String userAnswer, String answer, Boolean isCorrect) {
+    public QuizHistory(ExamHistory examHistory, QuizType quizType, String question, String userAnswer, String answer, Boolean isCorrect) {
         this.examHistory = examHistory;
         this.quizType = quizType;
         this.question = question;

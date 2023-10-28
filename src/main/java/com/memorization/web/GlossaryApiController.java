@@ -10,7 +10,7 @@ import com.memorization.web.dto.request.MarkingRequestDto;
 import com.memorization.web.dto.request.TermSaveRequestDto;
 import com.memorization.web.dto.response.GlossariesResponseDto;
 import com.memorization.web.dto.response.MarkingResponseDto;
-import com.memorization.web.dto.response.QuizResponseDto;
+import com.memorization.web.dto.response.ExamResponseDto;
 import com.memorization.web.dto.response.TermsResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +61,7 @@ public class GlossaryApiController {
 
     @Operation(summary = "시험(exam)을 출제한다. exam은 여러개 quiz로 구성되어있다.")
     @GetMapping("/glossaries/{glossaryId}/exam")
-    public ResponseEntity<QuizResponseDto> getQuizzes(@PathVariable Long glossaryId) {
+    public ResponseEntity<ExamResponseDto> getQuizzes(@PathVariable Long glossaryId) {
         return ResponseEntity.ok(quizService.getQuizzes(glossaryId));
     }
 

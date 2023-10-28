@@ -5,7 +5,7 @@ import com.memorization.domain.glossary.GlossaryRepository;
 import com.memorization.domain.term.Term;
 import com.memorization.domain.term.TermRepository;
 import com.memorization.web.dto.QuizDto;
-import com.memorization.web.dto.response.QuizResponseDto;
+import com.memorization.web.dto.response.ExamResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ class QuizServiceTest {
         termRepository.save(javaTerm);
 
         //when
-        QuizResponseDto quizResponseDto = quizService.getQuizzes(1L);
+        ExamResponseDto quizResponseDto = quizService.getQuizzes(1L);
 
         //then
         assertThat(quizResponseDto.getTotal()).isEqualTo(2);
