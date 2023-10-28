@@ -7,6 +7,6 @@ import java.util.List;
 
 @Getter
 public class MarkingRequestDto {
-    List<MarkingDto> terms;
+    List<MarkingDto> answerSheet;
 }
 

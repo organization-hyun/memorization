@@ -29,7 +29,7 @@ public class MarkingQuizService {
     private final ExamHistoryTermRepository examHistoryTermRepository;
 
     public MarkingResponseDto markAnswerSheet(MarkingRequestDto markingRequestDto) {
-        List<MarkingDto> markingTerms = markingRequestDto.getTerms();
+        List<MarkingDto> markingTerms = markingRequestDto.getAnswerSheet();
         MarkingResponseDto markingResponseDto = new MarkingResponseDto(1L); // dummy
         for (MarkingDto markingTerm : markingTerms) {
             if(isCorrectAnswer(markingTerm)) continue;
@@ -42,7 +42,7 @@ public class MarkingQuizService {
     // TODO: 10/27/23 glossary 자동 생성
     private void saveHistory(MarkingDto markingTerm) {
         ExamHistory examHistory = new ExamHistory();
-        ExamHistoryTerm examHistoryTerm = new ExamHistoryTerm(examHistory, termRepository.getById(markingTerm.getId()));
+        ExamHistoryTerm examHistoryTerm = new ExamHistoryTerm(examHistory, termRepository.getById(markingTerm.getTermId()));
         examHistoryRepository.save(examHistory);
         examHistoryTermRepository.save(examHistoryTerm);
     }
@@ -51,9 +51,9 @@ public class MarkingQuizService {
         String quizType = markingTerm.getQuizType().toString();
 
         if (quizType.equals(QuizType.WORD.name())) {
-            return checkDescription(markingTerm.getId(), markingTerm.getUserAnswer());
+            return checkDescription(markingTerm.getTermId(), markingTerm.getUserAnswer());
         } else if (quizType.equals(QuizType.DESCRIPTION.name())) {
-            return checkWord(markingTerm.getId(), markingTerm.getUserAnswer());
+            return checkWord(markingTerm.getTermId(), markingTerm.getUserAnswer());
         } else {
             throw new RuntimeException("Wrong quiz type");
         }

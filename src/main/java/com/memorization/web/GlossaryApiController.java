@@ -59,13 +59,14 @@ public class GlossaryApiController {
         return ResponseEntity.ok(termService.saveTerm(glossaryId, termSaveRequestDto));
     }
 
-    @GetMapping("/glossaries/{glossaryId}/quizzes")
+    @Operation(summary = "시험(exam)을 출제한다. exam은 여러개 quiz로 구성되어있다.")
+    @GetMapping("/glossaries/{glossaryId}/exam")
     public ResponseEntity<QuizResponseDto> getQuizzes(@PathVariable Long glossaryId) {
         return ResponseEntity.ok(quizService.getQuizzes(glossaryId));
     }
 
     @Operation(summary = "퀴즈 답안지를 제출받아서 시험 이력(정답, 오답 등) 을 저장 한뒤, 시험 이력 키값을 반환한다.")
-    @PostMapping("/glossaries/{glossaryId}/quiz")
+    @PostMapping("/glossaries/{glossaryId}/exam")
     public ResponseEntity<MarkingResponseDto> markAnswerSheet(@PathVariable Long glossaryId,
                                                               @RequestBody MarkingRequestDto markingRequestDto) {
         return ResponseEntity.ok(markingQuizService.markAnswerSheet(markingRequestDto));

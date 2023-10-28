@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MarkingDto {
 
-    Long id;
+    Long termId;
     QuizType quizType;
     String userAnswer;
 }
