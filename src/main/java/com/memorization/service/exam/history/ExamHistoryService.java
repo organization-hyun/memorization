@@ -23,7 +23,7 @@ public class ExamHistoryService {
     private final TermRepository termRepository;
     private final ExamHistoryRepository examHistoryRepository;
 
-    public ExamHistoryResponseDto getExamHistory(Long examHistoryId) {
+    public ExamHistoryResponseDto getItems(Long examHistoryId) {
         return ExamHistoryResponseDto.of(
                 examHistoryRepository.findById(examHistoryId).orElseThrow(NoSuchElementException::new));
     }
