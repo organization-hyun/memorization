@@ -6,6 +6,7 @@ import com.memorization.domain.examHistory.item.ExamHistoryItem;
 import com.memorization.domain.term.Term;
 import com.memorization.domain.term.TermRepository;
 import com.memorization.web.dto.response.ExamHistoryResponseDto;
+import com.memorization.web.examHistory.dto.ExamHistoriesDto;
 import com.memorization.web.examHistory.dto.ExamHistorySaveDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,10 @@ public class ExamHistoryService {
 
     private final TermRepository termRepository;
     private final ExamHistoryRepository examHistoryRepository;
+
+    public ExamHistoriesDto getExamHistories() {
+        return ExamHistoriesDto.of(examHistoryRepository.findAll());
+    }
 
     public ExamHistoryResponseDto getItems(Long examHistoryId) {
         return ExamHistoryResponseDto.of(
@@ -41,4 +46,5 @@ public class ExamHistoryService {
         return examHistoryRepository.save(new ExamHistory("응시 이력", examHistoryItems)).getId();
 
     }
+
 }
