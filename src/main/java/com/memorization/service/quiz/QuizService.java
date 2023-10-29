@@ -3,12 +3,10 @@ package com.memorization.service.quiz;
 import com.memorization.domain.term.Term;
 import com.memorization.domain.term.TermRepository;
 import com.memorization.enums.QuizType;
-import com.memorization.web.dto.QuizDto;
 import com.memorization.web.dto.response.ExamResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -25,18 +23,18 @@ public class QuizService {
 
     public ExamResponseDto getQuizzes(Long glossaryId) {
         List<Term> terms = termRepository.findByGlossaryId(glossaryId);
-        int termCount = terms.size();
-        List<QuizDto> quizDtoList = new ArrayList<>();
+//        int termCount = terms.size();
+//        List<QuizDto> quizDtoList = new ArrayList<>();
+//
+//        for (int i = 0; i < termCount; i++) {
+//            Term termForQuiz = terms.remove(random.nextInt(terms.size()));// 문제 중복출제 방지
+//
+//            int quizTypeRandomIndex = random.nextInt(2);
+//            QuizType quizType = QuizType.getByIdx(quizTypeRandomIndex);
+//            quizDtoList.add(new QuizDto(termForQuiz.getId(), quizType, extractQuizText(termForQuiz, quizType)));
+//        }
 
-        for (int i = 0; i < termCount; i++) {
-            Term termForQuiz = terms.remove(random.nextInt(terms.size()));// 문제 중복출제 방지
-
-            int quizTypeRandomIndex = random.nextInt(2);
-            QuizType quizType = QuizType.getByIdx(quizTypeRandomIndex);
-            quizDtoList.add(new QuizDto(termForQuiz.getId(), quizType, extractQuizText(termForQuiz, quizType)));
-        }
-
-        return new ExamResponseDto(quizDtoList.size(), quizDtoList);
+        return ExamResponseDto.of(terms);
     }
 
 
