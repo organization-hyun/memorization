@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/exam-history")
+@RequestMapping("/exam-histories")
 public class ExamHistoryApiController {
 
     private final ExamHistoryService examHistoryService;
