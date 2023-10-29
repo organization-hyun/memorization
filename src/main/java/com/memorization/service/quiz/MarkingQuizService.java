@@ -1,10 +1,10 @@
 package com.memorization.service.quiz;
 
-import com.memorization.domain.exam.history.ExamHistory;
-import com.memorization.domain.exam.history.ExamHistoryRepository;
+import com.memorization.domain.examHistory.ExamHistory;
+import com.memorization.domain.examHistory.ExamHistoryRepository;
+import com.memorization.domain.examHistory.item.ExamHistoryItem;
+import com.memorization.domain.examHistory.item.ExamHistoryItemRepository;
 import com.memorization.domain.glossary.GlossaryRepository;
-import com.memorization.domain.quiz.history.QuizHistory;
-import com.memorization.domain.quiz.history.QuizHistoryRepository;
 import com.memorization.domain.term.Term;
 import com.memorization.domain.term.TermRepository;
 import com.memorization.enums.QuizType;
@@ -31,7 +31,7 @@ public class MarkingQuizService {
     private final GlossaryRepository glossaryRepository;
     private final TermRepository termRepository;
     private final ExamHistoryRepository examHistoryRepository;
-    private final QuizHistoryRepository quizHistoryRepository;
+    private final ExamHistoryItemRepository examHistoryItemRepository;
 
     public MarkingResponseDto markAnswerSheet(Long glossaryId, MarkingRequestDto markingRequestDto) {
         List<MarkingDto> answerSheet = markingRequestDto.getAnswerSheet();
@@ -52,9 +52,9 @@ public class MarkingQuizService {
                 question = answerTerm.getDescription();
                 answer = answerTerm.getWord();
             }
-            QuizHistory quiz = new QuizHistory(examHistory, quizType, question, markingDto.getUserAnswer(), answer,
+            ExamHistoryItem quiz = new ExamHistoryItem(examHistory, quizType, question, markingDto.getUserAnswer(), answer,
                     isCorrectAnswer(quizType, answerTerm, markingDto.getUserAnswer()));
-            quizHistoryRepository.save(quiz);
+            examHistoryItemRepository.save(quiz);
         }
 
         return new MarkingResponseDto(examHistory.getId());

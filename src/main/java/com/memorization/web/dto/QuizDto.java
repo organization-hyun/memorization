@@ -12,5 +12,6 @@ public class QuizDto {
 
     Long id;
     QuizType type;
-    String quizText; // TODO: 10/27/23 question 으로 변경
+    String question;
+
 }

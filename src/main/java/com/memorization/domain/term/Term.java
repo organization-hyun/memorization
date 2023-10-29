@@ -1,6 +1,7 @@
 package com.memorization.domain.term;
 
 import com.memorization.domain.glossary.Glossary;
+import com.memorization.enums.QuizType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.memorization.enums.QuizType.DESCRIPTION;
+import static com.memorization.enums.QuizType.WORD;
 
 @Entity
 @Getter
@@ -70,5 +74,32 @@ public class Term {
 
     public void resetKeywords() {
         keywords.clear();
+    }
+
+    // TODO 우선 무조건 맞다고 처리
+    public boolean checkUserAnswerIsCorrect(QuizType quizType, String userAnswer) {
+
+        if (quizType == WORD) {
+            return true;
+        }
+
+        if (quizType == DESCRIPTION) {
+            return true;
+        }
+
+        throw new IllegalStateException();
+    }
+
+    public String getQuestion(QuizType quizType) {
+
+        if (quizType == WORD) {
+            return word;
+        }
+
+        if (quizType == DESCRIPTION) {
+            return description;
+        }
+
+        throw new IllegalStateException();
     }
 }
