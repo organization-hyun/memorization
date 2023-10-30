@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.memorization.enums.QuizType.DESCRIPTION;
 import static com.memorization.enums.QuizType.WORD;
@@ -84,7 +85,8 @@ public class Term {
         }
 
         if (quizType == DESCRIPTION) {
-            return true;
+            return this.word.equals(
+                    Objects.isNull(userAnswer) ? "" : userAnswer.replaceAll(" ", ""));
         }
 
         throw new IllegalStateException();
