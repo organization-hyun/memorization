@@ -1,6 +1,7 @@
 package com.memorization.web;
 
 import com.memorization.service.exam.history.ExamHistoryService;
+import com.memorization.web.dto.response.ExamHistoryResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class ExamHistoryApiController {
 
     @Operation(summary = "사용자가 응시했던 시험 결과를 반환한다. History 는 복수형이 없으므로 복수형은 HistoryList 로 반환한다")
     @GetMapping("/exam/history/{examHistoryId}")
-    public ResponseEntity getExamHistory(@PathVariable Long examHistoryId) {
+    public ResponseEntity<ExamHistoryResponseDto> getExamHistory(@PathVariable Long examHistoryId) {
         return ResponseEntity.ok(examHistoryService.getExamHistory(examHistoryId));
     }
 }
