@@ -13,6 +13,7 @@ import com.memorization.web.dto.request.MarkingRequestDto;
 import com.memorization.web.dto.response.MarkingResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -74,10 +75,13 @@ public class MarkingQuizService {
     }
 
     private boolean checkWord(String answerWord, String userWord) {
+        if(!StringUtils.hasText(userWord)) return false;
         return userWord.replaceAll("\\([^)]*\\)|\\s", "").equals(answerWord);
     }
 
     private boolean checkDescription(List<String> keywords, String userDescription) {
+        if(!StringUtils.hasText(userDescription)) return false;
+
         for (String keyword : keywords) {
             if(!userDescription.contains(keyword)) return false;
         }
