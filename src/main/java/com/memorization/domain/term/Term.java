@@ -64,8 +64,8 @@ public class Term {
         this.description = description;
     }
 
-    public void addKeywords(List<String> keywords) {
-        keywords.addAll(keywords);
+    public void updateKeywords(List<String> keywords) {
+        this.keywords = keywords;
     }
 
     public void resetKeywords() {

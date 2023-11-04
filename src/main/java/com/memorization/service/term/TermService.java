@@ -40,7 +40,7 @@ public class TermService {
         term.updateWord(termUpdateRequestDto.getWord());
         term.updateDescription(termUpdateRequestDto.getDescription());
         term.resetKeywords();
-        term.addKeywords(termUpdateRequestDto.getKeywords());
+        term.updateKeywords(termUpdateRequestDto.getKeywords());
         return term.getId();
     }
 
