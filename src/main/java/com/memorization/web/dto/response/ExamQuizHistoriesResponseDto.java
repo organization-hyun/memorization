@@ -10,13 +10,12 @@ import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
-public class ExamHistoryResponseDto {
+public class ExamQuizHistoriesResponseDto {
 
-    String title;
     List<QuizHistoryDto> quizHistories;
 
-    public static ExamHistoryResponseDto of(ExamHistory examHistory) {
-        return new ExamHistoryResponseDto(examHistory.getTitle(),
+    public static ExamQuizHistoriesResponseDto of(ExamHistory examHistory) {
+        return new ExamQuizHistoriesResponseDto(
                 examHistory.getQuizHistoryList().stream().map(QuizHistoryDto::of).collect(Collectors.toList()));
     }
 }

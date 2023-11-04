@@ -1,7 +1,8 @@
 package com.memorization.service.exam.history;
 
 import com.memorization.domain.exam.history.ExamHistoryRepository;
-import com.memorization.web.dto.response.ExamHistoryResponseDto;
+import com.memorization.web.dto.response.ExamHistoriesResponseDto;
+import com.memorization.web.dto.response.ExamQuizHistoriesResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +14,12 @@ public class ExamHistoryService {
 
     private final ExamHistoryRepository examHistoryRepository;
 
-    public ExamHistoryResponseDto getExamHistory(Long examHistoryId) {
-        return ExamHistoryResponseDto.of(
+    public ExamHistoriesResponseDto getExamHistories() {
+        return ExamHistoriesResponseDto.of(examHistoryRepository.findAll());
+    }
+
+    public ExamQuizHistoriesResponseDto getExamQuizHistories(Long examHistoryId) {
+        return ExamQuizHistoriesResponseDto.of(
                 examHistoryRepository.findById(examHistoryId).orElseThrow(NoSuchElementException::new));
     }
 }
