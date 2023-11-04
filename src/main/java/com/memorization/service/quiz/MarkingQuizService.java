@@ -2,31 +2,29 @@ package com.memorization.service.quiz;
 
 import com.memorization.domain.exam.history.ExamHistory;
 import com.memorization.domain.exam.history.ExamHistoryRepository;
+import com.memorization.domain.glossary.Glossary;
 import com.memorization.domain.glossary.GlossaryRepository;
 import com.memorization.domain.quiz.history.QuizHistory;
 import com.memorization.domain.quiz.history.QuizHistoryRepository;
 import com.memorization.domain.term.Term;
 import com.memorization.domain.term.TermRepository;
 import com.memorization.enums.QuizType;
+import com.memorization.utils.TimeUtil;
 import com.memorization.web.dto.MarkingDto;
 import com.memorization.web.dto.request.MarkingRequestDto;
 import com.memorization.web.dto.response.MarkingResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-/**
- * Quiz를 채점한다
- */
-
+// TODO: 11/4/23 리팩토링!!
 @Service
 @AllArgsConstructor
+@Transactional
 public class MarkingQuizService {
 
     private final GlossaryRepository glossaryRepository;
@@ -38,7 +36,7 @@ public class MarkingQuizService {
         List<MarkingDto> answerSheet = markingRequestDto.getAnswerSheet();
 
         ExamHistory examHistory = new ExamHistory(glossaryRepository.findById(glossaryId).orElseThrow(NoSuchElementException::new)
-                .getTitle() + "_" + LocalDateTime.now(ZoneId.of("Asia/Seoul")).format(DateTimeFormatter.ofPattern("yyyyMMddHHmm")));
+                .getTitle() + "_" + TimeUtil.getNowDateMinute());
         examHistoryRepository.save(examHistory);
 
         for (MarkingDto markingDto : answerSheet) {
@@ -58,10 +56,10 @@ public class MarkingQuizService {
             quizHistoryRepository.save(quiz);
         }
 
+        makeCorrections(glossaryId, markingRequestDto);
+
         return new MarkingResponseDto(examHistory.getId());
     }
-
-    // TODO: 10/27/23 glossary 자동 생성
 
     private boolean isCorrectAnswer(QuizType quizType, Term term, String userAnswer) {
 
@@ -86,5 +84,23 @@ public class MarkingQuizService {
             if(!userDescription.contains(keyword)) return false;
         }
         return true;
+    }
+
+    // 오답노트를 만들다
+    private void makeCorrections(Long glossaryId, MarkingRequestDto markingRequestDto) {
+
+        String title = glossaryRepository.findById(glossaryId).orElseThrow(NoSuchElementException::new).getTitle() + "_" + TimeUtil.getNowDateMinute()+"_오답노트";
+        Glossary newGlossary = Glossary.create(title);
+        glossaryRepository.save(newGlossary);
+
+        List<MarkingDto> answerSheet = markingRequestDto.getAnswerSheet();
+        for (MarkingDto markingDto : answerSheet) {
+            Term term = termRepository.findById(markingDto.getTermId()).orElseThrow(NoSuchElementException::new);
+            if (!isCorrectAnswer(markingDto.getQuizType(), term, markingDto.getUserAnswer())) {
+                Term newTerm = Term.create(term.getWord(), term.getDescription(), term.getKeywords());
+                newTerm.updateGlossary(newGlossary);
+                termRepository.save(newTerm);
+            }
+        }
     }
 }
