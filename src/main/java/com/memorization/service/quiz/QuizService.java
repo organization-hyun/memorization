@@ -2,6 +2,7 @@ package com.memorization.service.quiz;
 
 import com.memorization.domain.term.Term;
 import com.memorization.domain.term.TermRepository;
+import com.memorization.enums.ExamType;
 import com.memorization.enums.QuizType;
 import com.memorization.web.dto.QuizDto;
 import com.memorization.web.dto.response.ExamResponseDto;
@@ -23,32 +24,31 @@ public class QuizService {
     private final TermRepository termRepository;
     private Random random = new Random();
 
-    public ExamResponseDto getQuizzes(Long glossaryId) {
+    public ExamResponseDto getExam(Long glossaryId, ExamType examType) {
         List<Term> terms = termRepository.findByGlossaryId(glossaryId);
         int termCount = terms.size();
         List<QuizDto> quizDtoList = new ArrayList<>();
 
         for (int i = 0; i < termCount; i++) {
             Term termForQuiz = terms.remove(random.nextInt(terms.size()));// 문제 중복출제 방지
-
-            int quizTypeRandomIndex = random.nextInt(2);
-            QuizType quizType = QuizType.getByIdx(quizTypeRandomIndex);
-            quizDtoList.add(new QuizDto(termForQuiz.getId(), quizType, extractQuizText(termForQuiz, quizType)));
+            QuizType quizType = getQuizTypeByExamType(examType);
+            quizDtoList.add(new QuizDto(termForQuiz.getId(), quizType, extractQuestion(termForQuiz, quizType)));
         }
 
         return new ExamResponseDto(quizDtoList.size(), quizDtoList);
     }
 
+    private QuizType getQuizTypeByExamType(ExamType examType) {
+        if (examType.equals(ExamType.WORD)) {
+            return QuizType.WORD;
 
-    private boolean removeTermNotExist(List<Long> termIdList, Long termId) {
-        if (!termRepository.existsById(termId)) { // 존재하지 않는 Id로 퀴즈 요청했을 경우
-            termIdList.remove(termId);
-            return true;
+        } else if (examType.equals(ExamType.DESCRIPTION)) {
+            return QuizType.DESCRIPTION;
         }
-        return false;
+        return QuizType.getByIdx(random.nextInt(2));
     }
 
-    private String extractQuizText(Term termForQuiz, QuizType quizType) {
+    private String extractQuestion(Term termForQuiz, QuizType quizType) {
         if (quizType.equals(QuizType.WORD)) {
             return termForQuiz.getWord();
         } else {
