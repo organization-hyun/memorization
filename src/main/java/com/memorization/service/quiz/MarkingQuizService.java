@@ -91,8 +91,7 @@ public class MarkingQuizService {
 
         String title = glossaryRepository.findById(glossaryId).orElseThrow(NoSuchElementException::new).getTitle() + "_" + TimeUtil.getNowDateMinute()+"_오답노트";
         Glossary newGlossary = Glossary.create(title);
-        glossaryRepository.save(newGlossary);
-
+        int wrongAnswerCount = 0;
         List<MarkingDto> answerSheet = markingRequestDto.getAnswerSheet();
         for (MarkingDto markingDto : answerSheet) {
             Term term = termRepository.findById(markingDto.getTermId()).orElseThrow(NoSuchElementException::new);
@@ -100,7 +99,10 @@ public class MarkingQuizService {
                 Term newTerm = Term.create(term.getWord(), term.getDescription(), term.getKeywords());
                 newTerm.updateGlossary(newGlossary);
                 termRepository.save(newTerm);
+                ++wrongAnswerCount;
             }
         }
+
+        if(wrongAnswerCount > 0) glossaryRepository.save(newGlossary);
     }
 }
