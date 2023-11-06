@@ -20,8 +20,8 @@ public class ExamHistory extends BaseTimeEntity {
 
     private String title;
 
-    @OneToMany(mappedBy = "examHistory")
-    private List<QuizHistory> QuizHistoryList;
+    @OneToMany(mappedBy = "examHistory",cascade = CascadeType.ALL)
+    private List<QuizHistory> quizHistoryList;
 
     public ExamHistory(String title) {
         this.title = title;

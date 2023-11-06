@@ -22,4 +22,9 @@ public class ExamHistoryService {
         return ExamQuizHistoriesResponseDto.of(
                 examHistoryRepository.findById(examHistoryId).orElseThrow(NoSuchElementException::new));
     }
+
+    public Long deleteExamHistory(Long examHistoryId) {
+        examHistoryRepository.deleteById(examHistoryId);
+        return examHistoryId;
+    }
 }
