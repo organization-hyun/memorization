@@ -81,7 +81,16 @@ public class MarkingQuizService {
         if(!StringUtils.hasText(userDescription)) return false;
 
         for (String keyword : keywords) {
-            if(!userDescription.contains(keyword)) return false;
+            boolean isCorrect = false;
+            String[] keywordElements = keyword.split("\\|\\|");
+            for (String keywordElement : keywordElements) {
+                if(userDescription.contains(keywordElement)) {
+                    isCorrect = true;
+                    break;
+                }
+            }
+
+            if(!isCorrect) return false;
         }
         return true;
     }
