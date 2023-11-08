@@ -78,12 +78,14 @@ public class MarkingQuizService {
     }
 
     private boolean checkDescription(List<String> keywords, String userDescription) {
+        userDescription = userDescription.replaceAll(" ", "");
         if(!StringUtils.hasText(userDescription)) return false;
 
         for (String keyword : keywords) {
             boolean isCorrect = false;
             String[] keywordElements = keyword.split("\\|\\|");
             for (String keywordElement : keywordElements) {
+                keywordElement = keywordElement.replaceAll(" ", "");
                 if(userDescription.contains(keywordElement)) {
                     isCorrect = true;
                     break;
