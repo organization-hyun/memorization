@@ -64,7 +64,7 @@ public class MarkingQuizService {
     private boolean isCorrectAnswer(QuizType quizType, Term term, String userAnswer) {
 
         if (quizType.equals(QuizType.WORD)) {
-            return checkDescription(term.getKeywords(), userAnswer);
+            return checkDescription(term, userAnswer);
         } else if (quizType.equals(QuizType.DESCRIPTION)) {
             return checkWord(term.getWord(), userAnswer);
         } else {
@@ -74,18 +74,25 @@ public class MarkingQuizService {
 
     private boolean checkWord(String answerWord, String userWord) {
         if(!StringUtils.hasText(userWord)) return false;
-        return userWord.replaceAll("\\([^)]*\\)|\\s", "").equals(answerWord.replaceAll(" ",""));
+        return userWord.replaceAll("\\([^)]*\\)|\\s", "").equals(answerWord.replaceAll("\\s",""));
     }
 
-    private boolean checkDescription(List<String> keywords, String userDescription) {
-        userDescription = userDescription.replaceAll(" ", "");
+    private boolean checkDescription(Term term, String userDescription) {
         if(!StringUtils.hasText(userDescription)) return false;
+
+        List<String> keywords = term.getKeywords();
+        userDescription = userDescription.replaceAll("\\s", "");
+        if(keywords.size() == 0) {
+            String answerDescription = term.getDescription().replaceAll("\\s", "");
+            if(answerDescription.equals(userDescription)) return true;
+            else return false;
+        }
 
         for (String keyword : keywords) {
             boolean isCorrect = false;
             String[] keywordElements = keyword.split("\\|\\|");
             for (String keywordElement : keywordElements) {
-                keywordElement = keywordElement.replaceAll(" ", "");
+                keywordElement = keywordElement.replaceAll("\\s", "");
                 if(userDescription.contains(keywordElement)) {
                     isCorrect = true;
                     break;
