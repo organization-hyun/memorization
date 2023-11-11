@@ -8,6 +8,7 @@ import com.memorization.domain.quiz.history.QuizHistory;
 import com.memorization.domain.quiz.history.QuizHistoryRepository;
 import com.memorization.domain.term.Term;
 import com.memorization.domain.term.TermRepository;
+import com.memorization.enums.GlossaryType;
 import com.memorization.enums.QuizType;
 import com.memorization.utils.TimeUtil;
 import com.memorization.web.dto.MarkingDto;
@@ -108,7 +109,7 @@ public class MarkingQuizService {
     private void makeCorrections(Long glossaryId, MarkingRequestDto markingRequestDto) {
 
         String title = glossaryRepository.findById(glossaryId).orElseThrow(NoSuchElementException::new).getTitle() + "_" + TimeUtil.getNowDateMinute()+"_오답노트";
-        Glossary newGlossary = Glossary.create(title);
+        Glossary newGlossary = Glossary.create(title, GlossaryType.CORRECTION);
         int wrongAnswerCount = 0;
         List<MarkingDto> answerSheet = markingRequestDto.getAnswerSheet();
         for (MarkingDto markingDto : answerSheet) {
