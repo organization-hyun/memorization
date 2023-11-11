@@ -74,7 +74,7 @@ public class MarkingQuizService {
 
     private boolean checkWord(String answerWord, String userWord) {
         if(!StringUtils.hasText(userWord)) return false;
-        return userWord.replaceAll("\\([^)]*\\)|\\s", "").equals(answerWord);
+        return userWord.replaceAll("\\([^)]*\\)|\\s", "").equals(answerWord.replaceAll(" ",""));
     }
 
     private boolean checkDescription(List<String> keywords, String userDescription) {
